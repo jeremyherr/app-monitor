@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+
+	"name": "Error Logger",
+	"description": "This extension logs JavaScript errors in page.",
+	"version": "0.1",
+	"permissions": ["tabs", "http://*/*"],
+	"content_scripts": [
+		{
+			"matches": ["http://*/*"],
+			"js": ["on_error_start.js"],
+			"run_at": "document_start",
+			"all_frames": true
+		},
+		{
+			"matches": ["http://*/*"],
+			"js": ["on_error_end.js"],
+			"run_at": "document_end",
+			"all_frames": true
+		}
+	]
+}
