@@ -2,9 +2,9 @@
 	"manifest_version": 2,
 
 	"name": "Error Logger",
-	"description": "This extension logs JavaScript errors in page.",
+	"description": "This extension captures JavaScript errors in page and sends them via websockets to a server.",
 	"author": "Jeremy Herr",
-	"version": "0.1",
+	"version": "0.1.0",
 	"permissions": ["tabs", "http://*/*"],
 	"content_scripts": [
 		{

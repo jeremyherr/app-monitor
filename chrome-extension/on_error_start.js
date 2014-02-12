@@ -3,6 +3,8 @@ console.log("running extension - start");
 // Connect to server
 var socket = io.connect('http://localhost:3001');
 
+socket.emit("client type", "browser");
+
 // Listen for unique session ID from server.
 // This will be used to match up this server with browser plugin
 socket.on("new session", function (data) {
@@ -30,7 +32,7 @@ function receiveMessage(event)
 	}
 
 	if (event.origin.match("http://localhost")) {
-		socket.emit("chunk", event.data);
+		socket.emit("browser error", event.data);
 	}
 }
 

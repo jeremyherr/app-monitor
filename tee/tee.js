@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var stdin    = process.stdin,
+var stdin  = process.stdin,
 	io       = require("socket.io-client"),
-	readline = require ("readline");
+	readline = require("readline");
 
 // So we can intercept CONTROL-C in windows
 if (process.platform === "win32") {
@@ -27,11 +27,9 @@ stdin.setEncoding('utf8');
 // Connect to server
 var socket = io.connect('http://localhost:3001');
 
-// Listen for unique session ID from server.
-// This will be used to match up this server with browser plugin
-socket.on("new session", function (data) {
-    console.log("session ID: ", data.sessionId);
-});
+// TODO: Instead of hard coded string, this will come from output of app server
+socket.emit("client type", "command line");
+socket.emit("app server instance id", "single server");
 
 // on any data into stdin
 stdin.on( 'data', function( chunk ){
@@ -39,10 +37,12 @@ stdin.on( 'data', function( chunk ){
   if ( chunk === '\u0003' ) {
     process.exit();
   }
+
   // write the chunk to stdout
   // process.stdout.write(chunk);
 
-  socket.emit("chunk", { time: (new Date).getTime(), chunk: chunk });
+
+  socket.emit("app server line", { "app server line": chunk });
 });
 
 // Immediately disconnect session when user presses CONTROL-C

@@ -1,16 +1,12 @@
 #!/usr/bin/env node
 
-function generateUniqueSessionId () {
-    return (new Date).getTime().toString();
-}
-
 var /* parser  = require("./parser"), */
-    express = require('express'),
-    http    = require('http'),
-    fs      = require('fs'),
-    path    = require('path'),
-    app     = express(),
-    config  = { sessions: [] };
+    express  = require('express'),
+    http     = require('http'),
+    fs       = require('fs'),
+    path     = require('path'),
+    app      = express(),
+    sessions = {};
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3001);
@@ -34,22 +30,37 @@ var server  = http.createServer(app).listen(app.get('port'), function() {
     }),
     io      = require('socket.io').listen(server, { log: false });
 
+// show number of connections on command line
 setInterval(function () {
     console.log("number of connections:" + Object.keys(io.sockets.sockets).length);
 }, 120000);
 
+
 io.sockets.on('connection', function (socket) {
 
-    var sessionId = generateUniqueSessionId();
+	var clientType = "unknown",
+		address    = socket.handshake.address;
 
-    config.sessions.push({sessionId: sessionId});
+	// Create new entry for this session
+	sessions[socket.id] = {};
 
-    var address = socket.handshake.address;
-    console.log("new connection from " + address.address);
+	// Get and store app server instance ID
+    socket.on("app server instance id", function (data) {
+		sessions[socket.id].appServerInstanceId = data;
 
-    socket.emit("new session", { sessionId: sessionId });
+		// TODO search through rest of sessions to find a matching app server instance ID
 
-    socket.on("chunk", function (data) {
+    });
+
+    // Get and store client type
+    socket.on("client type", function (data) {
+    	clientType = data === "command line" ? "command line" : "browser";
+		sessions[socket.id].clientType = clientType;
+
+	    console.log("new connection from " + address.address + ", client type " + clientType);
+    });
+
+    socket.on("app server line", function (data) {
         // parser.parse(sessionId, data);
         console.log(data);
         console.log(socket.handshake.address);
@@ -58,7 +69,23 @@ io.sockets.on('connection', function (socket) {
         data.address = socket.handshake.address.address;
         data.port    = socket.handshake.address.port;
 
-        fs.appendFile('log.txt', JSON.stringify(data) + "\n", function (err) {
+        fs.appendFile('server_log.txt', JSON.stringify(data) + "\n", function (err) {
+          if (err) throw err;
+          console.log("appended to log:\n", data);
+        });
+
+    });
+
+    socket.on("browser error", function (data) {
+        // parser.parse(sessionId, data);
+        console.log(data);
+        console.log(socket.handshake.address);
+
+        data.date    = new Date(Date.now());
+        data.address = socket.handshake.address.address;
+        data.port    = socket.handshake.address.port;
+
+        fs.appendFile('browser_log.txt', JSON.stringify(data) + "\n", function (err) {
           if (err) throw err;
           console.log("appended to log:\n", data);
         });
