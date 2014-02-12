@@ -23,13 +23,16 @@ TODO: Put these in a DB.
 
 Install:
 
-	cd server
-	npm install
+```
+cd server
+npm install
+```
 
 Run:
 
-	node server.js
-
+```
+node server.js
+```
 
 
 tee
@@ -39,13 +42,16 @@ Node script that works like unix utility tee in that it echos STDIN back to the 
 
 Install:
 
-	cd tee
-	npm install
+```
+cd tee
+npm install
+```
 
 Run:
 
-	bladerunner start | node \path\to\app-monitor\tee\tee.js
-
+```
+bladerunner start | node \path\to\app-monitor\tee\tee.js
+```
 
 
 BRJS plugin (planned)
