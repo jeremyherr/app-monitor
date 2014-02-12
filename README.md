@@ -14,6 +14,13 @@ Node server that accepts websocket connections and logs objects it receives to l
 
 Node script that works like unix utility tee in that it echos STDIN back to the console, but also sends it via websocket connection to server.
 
+Depends on server
+
+```
+cd tee
+npm install
+bladerunner start | node \path\to\app-monitor\tee\tee.js
+```
 
 ## BRJS plugin (planned)
 

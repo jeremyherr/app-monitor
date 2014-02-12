@@ -1,0 +1,10 @@
+{
+	"name":         "app-monitor-tee",
+	"version":      "0.1.0",
+	"description":  "Opens websocket connection to server and passes everything on STDIN to it.",
+	"bugs":         { "email": "jeremy.herr@gmail.com" },
+	"author":       { "name": "Jeremy Herr", "email": "jeremy.herr@gmail.com" },
+	"dependencies": {
+		"socket.io-client": ">=0.9.16"
+	}
+}
