@@ -4,9 +4,10 @@ function generateUniqueSessionId () {
     return (new Date).getTime().toString();
 }
 
-var parser  = require("./parser"),
+var /* parser  = require("./parser"), */
     express = require('express'),
     http    = require('http'),
+    fs      = require('fs'),
     path    = require('path'),
     app     = express(),
     config  = { sessions: [] };
@@ -35,9 +36,9 @@ var server  = http.createServer(app).listen(app.get('port'), function() {
 
 setInterval(function () {
     console.log("number of connections:" + Object.keys(io.sockets.sockets).length);
-}, 5000);
+}, 120000);
 
-io.sockets.on('connection', function (socket) { debugger;
+io.sockets.on('connection', function (socket) {
 
     var sessionId = generateUniqueSessionId();
 
@@ -49,7 +50,19 @@ io.sockets.on('connection', function (socket) { debugger;
     socket.emit("new session", { sessionId: sessionId });
 
     socket.on("chunk", function (data) {
-        parser.parse(sessionId, data);
+        // parser.parse(sessionId, data);
+        console.log(data);
+        console.log(socket.handshake.address);
+
+        data.date    = new Date(Date.now());
+        data.address = socket.handshake.address.address;
+        data.port    = socket.handshake.address.port;
+
+        fs.appendFile('log.txt', JSON.stringify(data) + "\n", function (err) {
+          if (err) throw err;
+          console.log("appended to log:\n", data);
+        });
+
     });
 
     socket.on('disconnect', function () {
