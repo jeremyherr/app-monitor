@@ -8,7 +8,7 @@ socket.emit("client type", "browser");
 // Listen for unique session ID from server.
 // This will be used to match up this server with browser plugin
 socket.on("new session", function (data) {
-    console.log("session ID: ", data.sessionId);
+	console.log("session ID: ", data.sessionId);
 });
 
 // TODO: possibly use this when I get background/event page working, possibly that's better.

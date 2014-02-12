@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-var stdin  = process.stdin,
+var stdin    = process.stdin,
 	io       = require("socket.io-client"),
 	readline = require("readline");
 
 // So we can intercept CONTROL-C in windows
 if (process.platform === "win32") {
-    var rl = readline.createInterface ({
-        input: process.stdin,
-        output: process.stdout
-    });
+	var rl = readline.createInterface ({
+		input: process.stdin,
+		output: process.stdout
+	});
 
-    rl.on ("SIGINT", function (){
-        process.emit ("SIGINT");
-    });
+	rl.on ("SIGINT", function (){
+		process.emit ("SIGINT");
+	});
 }
 
 // without this, we would only get streams once enter is pressed
@@ -33,16 +33,16 @@ socket.emit("app server instance id", "single server");
 
 // on any data into stdin
 stdin.on( 'data', function( chunk ){
-  // ctrl-c ( end of text )
-  if ( chunk === '\u0003' ) {
-    process.exit();
-  }
+	// ctrl-c ( end of text )
+	if ( chunk === '\u0003' ) {
+		process.exit();
+	}
 
-  // write the chunk to stdout
-  // process.stdout.write(chunk);
+	// write the chunk to stdout
+	// process.stdout.write(chunk);
 
 
-  socket.emit("app server line", { "app server line": chunk });
+	socket.emit("app server line", { "app server line": chunk });
 });
 
 // Immediately disconnect session when user presses CONTROL-C
