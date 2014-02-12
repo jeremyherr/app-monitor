@@ -3,19 +3,20 @@
 
 	"name": "Error Logger",
 	"description": "This extension logs JavaScript errors in page.",
+	"author": "Jeremy Herr",
 	"version": "0.1",
 	"permissions": ["tabs", "http://*/*"],
 	"content_scripts": [
 		{
-			"matches": ["http://*/*"],
-			"js": ["on_error_start.js"],
+			"matches": [
+				"http://localhost/*",
+				"http://www.jeremyherr.org/*"
+			],
+			"js": [
+				"socket.io.js",
+				"on_error_start.js"
+			],
 			"run_at": "document_start",
-			"all_frames": true
-		},
-		{
-			"matches": ["http://*/*"],
-			"js": ["on_error_end.js"],
-			"run_at": "document_end",
 			"all_frames": true
 		}
 	]
