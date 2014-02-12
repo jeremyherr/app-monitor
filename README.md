@@ -22,10 +22,12 @@ Node server that accepts websocket connections and logs objects it receives to l
 TODO: Put these in a DB.
 
 Install:
+
 	cd server
 	npm install
 
 Run:
+
 	node server.js
 
 
@@ -36,10 +38,12 @@ tee
 Node script that works like unix utility tee in that it echos STDIN back to the console, but also sends it via websocket connection to server.
 
 Install:
+
 	cd tee
 	npm install
 
 Run:
+
 	bladerunner start | node \path\to\app-monitor\tee\tee.js
 
 
