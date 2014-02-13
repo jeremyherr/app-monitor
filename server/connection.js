@@ -1,3 +1,5 @@
+"use strict";
+
 var fs       = require("fs"),
 	sessions = require("./sessions"),
 	io;
@@ -7,7 +9,6 @@ module.exports.initialize = function initialize (io) {
 };
 
 module.exports.connect = function connect (socket) {
-	"use strict";
 
 	var address    = socket.handshake.address;
 

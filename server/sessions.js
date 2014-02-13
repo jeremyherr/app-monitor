@@ -1,3 +1,5 @@
+"use strict";
+
 var sessions = {};
 
 module.exports.getAll = function getAll () {

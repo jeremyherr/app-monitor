@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+"use strict";
 
 var /* parser  = require("./parser"), */
 	express    = require('express'),
