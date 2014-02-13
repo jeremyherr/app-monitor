@@ -6,7 +6,9 @@ var /* parser  = require("./parser"), */
 	path       = require('path'),
 	app        = express(),
 	connection = require('./connection'),
-	sessions = {};
+	sessions = {},
+	server,
+	io;
 
 app.configure(function(){
 	app.set('port', process.env.PORT || 3001);
@@ -25,11 +27,11 @@ app.configure('development', function () {
 	app.use(express.errorHandler());
 });
 
-var server  = http.createServer(app).listen(app.get('port'), function() {
-		console.log("Data server listening on port " + app.get('port'));
-	}),
-	io      = require('socket.io').listen(server, { log: false });
+server  = http.createServer(app).listen(app.get('port'), function() {
+	console.log("Data server listening on port " + app.get('port'));
+});
 
+io      = require('socket.io').listen(server, { log: false });
 connection.initialize(io);
 
 // show number of connections on command line

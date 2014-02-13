@@ -1,36 +1,35 @@
-var fs       = require('fs'),
-	sessions = {},
+var fs       = require("fs"),
+	sessions = require("./sessions"),
 	io;
 
-function initialize (io) {
+module.exports.initialize = function initialize (io) {
 	io = io;
-}
+};
 
-function connect (socket) {
+module.exports.connect = function connect (socket) {
 	"use strict";
 
-	var clientType = "unknown",
-		address    = socket.handshake.address;
+	var address    = socket.handshake.address;
 
 	// Create new entry for this session
 	sessions[socket.id] = {};
+	sessions[socket.id].clientType = "unknown";
+	// sessions.add(socket.id);
 
-	// Get and store app server instance ID
-	socket.on("app server instance id", function (data) {
-		sessions[socket.id].appServerInstanceId = data;
+	function onAppServerInstanceId (data) {
+		sessions.getSession(socket.id).appServerInstanceId = data;
 
 		// TODO search through rest of sessions to find a matching app server instance ID
-	});
+	}
 
-	// Get and store client type
-	socket.on("client type", function (data) {
-		clientType = data === "command line" ? "command line" : "browser";
-		sessions[socket.id].clientType = clientType;
+	function onClientType (data) {
+		var session = sessions.getSession(socket.id);
+		session.clientType = data === "command line" ? "command line" : "browser";
 
-		console.log("new connection from " + address.address + ", client type " + clientType);
-	});
+		console.log("new connection from " + address.address + ", client type " + session.clientType);
+	}
 
-	socket.on("app server line", function (data) {
+	function onAppServerLine (data) {
 		// parser.parse(sessionId, data);
 		console.log(data);
 		console.log(socket.handshake.address);
@@ -44,9 +43,9 @@ function connect (socket) {
 			console.log("appended to log:\n", data);
 		});
 
-	});
+	}
 
-	socket.on("browser error", function (data) {
+	function onBrowserError (data) {
 		// parser.parse(sessionId, data);
 		console.log(data);
 		console.log(socket.handshake.address);
@@ -60,13 +59,15 @@ function connect (socket) {
 			console.log("appended to log:\n", data);
 		});
 
-	});
+	}
+
+	socket.on("app server instance id", onAppServerInstanceId);
+	socket.on("client type",            onClientType);
+	socket.on("app server line",        onAppServerLine);
+	socket.on("browser error",          onBrowserError);
 
 	socket.on('disconnect', function () {
 		// I probably copied this from an example
 		io.sockets.emit('user disconnected');
 	});
-}
-
-module.exports.initialize = initialize;
-module.exports.connect    = connect;
+};
