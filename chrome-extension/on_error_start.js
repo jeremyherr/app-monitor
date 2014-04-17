@@ -30,10 +30,7 @@ function receiveMessage(event)
 	if (event.source != window) {
 		return;
 	}
-
-	if (event.origin.match("http://localhost")) {
-		socket.emit("browser error", event.data);
-	}
+	socket.emit("browser error", event.data);
 }
 
 var embeddedCodeStart = "(" + function () {

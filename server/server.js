@@ -35,9 +35,4 @@ server  = http.createServer(app).listen(app.get('port'), function() {
 io      = require('socket.io').listen(server, { log: false });
 connection.initialize(io);
 
-// show number of connections on command line
-setInterval(function () {
-	console.log("number of connections:" + Object.keys(io.sockets.sockets).length);
-}, 120000);
-
 io.sockets.on('connection', connection.connect);

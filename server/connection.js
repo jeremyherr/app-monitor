@@ -1,21 +1,28 @@
 "use strict";
 
-var fs       = require("fs"),
+var fs = require("fs"),
 	sessions = require("./sessions"),
 	io;
 
-module.exports.initialize = function initialize (io) {
-	io = io;
+function initialize (ioInit) {
+	io = ioInit;
 };
 
-module.exports.connect = function connect (socket) {
+function connect (socket) {
+	var address = socket.handshake.address.address;
 
-	var address    = socket.handshake.address;
+	sessions.add(socket.id, address, socket);
 
-	// Create new entry for this session
-	sessions[socket.id] = {};
-	sessions[socket.id].clientType = "unknown";
-	// sessions.add(socket.id);
+	console.log("\nnew connection from " + address);
+	printSessionSummary();
+
+	function printSessionSummary () {
+		console.log("number of sessions: " + sessions.getNumSessions());
+		Object.keys(sessions.getAll()).forEach(function (id) {
+			var session = sessions.getSession(id);
+			console.log(id, session.clientType, session.address);
+		});
+	}
 
 	function onAppServerInstanceId (data) {
 		sessions.getSession(socket.id).appServerInstanceId = data;
@@ -23,11 +30,11 @@ module.exports.connect = function connect (socket) {
 		// TODO search through rest of sessions to find a matching app server instance ID
 	}
 
-	function onClientType (data) {
-		var session = sessions.getSession(socket.id);
-		session.clientType = data === "command line" ? "command line" : "browser";
+	function onClientType (clientType) {
+		sessions.updateClientType(socket.id, clientType);
 
-		console.log("new connection from " + address.address + ", client type " + session.clientType);
+		console.log("\nnew connection from " + address + ", client type " + clientType);
+		printSessionSummary();
 	}
 
 	function onAppServerLine (data) {
@@ -68,7 +75,13 @@ module.exports.connect = function connect (socket) {
 	socket.on("browser error",          onBrowserError);
 
 	socket.on('disconnect', function () {
-		// I probably copied this from an example
-		io.sockets.emit('user disconnected');
+		console.log("user disconnected: " + sessions.getSession(socket.id).address);
+		printSessionSummary();
+		sessions.remove(socket.id);
 	});
+};
+
+module.exports = {
+	initialize: initialize,
+	connect: connect
 };

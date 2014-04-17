@@ -2,21 +2,46 @@
 
 var sessions = {};
 
-module.exports.getAll = function getAll () {
-	return sessions;
-};
-
-module.exports.add = function add (id) {
+function add (id, address, socket) {
 	sessions[id] = {
-		clientType:          "unknown",
-		appServerInstanceId: null
+		address: address || "unknown_address",
+		clientType: "unknown_client_type",
+		appServerInstanceId: null,
+		socket: socket // TODO maybe use this instead of creating my own object
 	};
 };
 
-module.exports.getSession = function add (id) {
-	return sessions[id];
-};
+function remove (id) {
+	delete sessions[id];
+}
 
-module.exports.getAssociatedBrowserSessions = function getAssociatedBrowserSessions (appServerInstanceId) {
+function updateClientType (id, clientType) {
+	sessions[id].clientType = clientType;
+}
+
+function getSession (id) {
+	return sessions[id];
+}
+
+function getAll () {
+	return sessions;
+}
+
+function getNumSessions () {
+	return Object.keys(sessions).length;
+}
+
+// TODO
+function getAssociatedBrowserSessions (appServerInstanceId) {
 	return [];
+}
+
+module.exports = {
+	add: add,
+	remove: remove,
+	updateClientType: updateClientType,
+	getSession: getSession,
+	getAll: getAll,
+	getNumSessions: getNumSessions,
+	getAssociatedBrowserSessions: getAssociatedBrowserSessions,
 };
