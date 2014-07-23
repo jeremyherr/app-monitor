@@ -36,7 +36,6 @@ window.addEventListener("message", receiveMessage, false);
 var embeddedCodeStart = "(" + function () {
 
 	function submitError (msg, url, lineNumber) {
-		// TODO: submit error to node server (already exists in node-tee)
 		console.log("submitError", msg, "at", url, ":", lineNumber);
 
 		window.postMessage({ message: msg, url: url, line: lineNumber, userAgent: navigator.userAgent }, "*");
@@ -44,11 +43,15 @@ var embeddedCodeStart = "(" + function () {
 
 	console.log('embedded start');
 
-	window.onerror = function () {
-		submitError.apply(this, arguments);
-	};
+	var oldOnError = window.onerror;
 
-	window.onerror_start = window.onerror;
+	window.onerror = function (errorMsg, url, lineNumber) {
+		submitError.call(this, errorMsg, url, lineNumber);
+
+		if (oldOnError) {
+			oldOnError(errorMsg, url, lineNumber);
+		}
+	};
 
 } + ")()";
 
