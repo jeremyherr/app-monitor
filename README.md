@@ -17,7 +17,14 @@ server
 
 Node server that accepts websocket connections and logs objects it receives to log file.
 
-* TODO: Put these in a DB.
+Install MongoDB:
+Go to http://docs.mongodb.org/manual/ and follow the instructions for Installation for your OS.
+
+Make sure you've created the data folder and started the Mongo daemon:
+```
+mkdir /data/db
+mongod
+```
 
 Install:
 

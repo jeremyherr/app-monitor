@@ -28,11 +28,11 @@ app.configure('development', function () {
 	app.use(express.errorHandler());
 });
 
-server  = http.createServer(app).listen(app.get('port'), function() {
+server = http.createServer(app).listen(app.get('port'), function() {
 	console.log("Data server listening on port " + app.get('port'));
 });
 
-io      = require('socket.io').listen(server, { log: false });
+io = require('socket.io').listen(server, { log: false });
 connection.initialize(io);
 
 io.sockets.on('connection', connection.connect);

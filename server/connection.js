@@ -1,6 +1,7 @@
 "use strict";
 
 var fs = require("fs"),
+	MongoClient = require('mongodb').MongoClient,
 	Session = require("./session"),
 	sessions = require("./sessions"),
 	io;
@@ -13,6 +14,23 @@ function connect (socket) {
 	var session = new Session(socket);
 
 	sessions.add(session);
+
+	function storeData (data, logFileName) {
+
+		fs.appendFile(logFileName, JSON.stringify(data) + "\n", function (err) {
+			if (err) throw err;
+			console.log("appended to log file and database:\n", data);
+		});
+
+		MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, db) {
+			if(err) throw err;
+
+			var collection = db.collection('browser_log');
+			collection.insert(data, function(err, docs) {
+				db.close();
+			});
+		})
+	}
 
 	function printSessionSummary () {
 		console.log("number of sessions: " + sessions.getNumSessions());
@@ -44,11 +62,7 @@ function connect (socket) {
 		data.address = session.getAddress();
 		data.port    = socket.handshake.address.port;
 
-		fs.appendFile('server_log.txt', JSON.stringify(data) + "\n", function (err) {
-			if (err) throw err;
-			console.log("appended to log:\n", data);
-		});
-
+		storeData(data, 'server_log.txt');
 	}
 
 	function onBrowserError (data) {
@@ -60,11 +74,7 @@ function connect (socket) {
 		data.address = session.getAddress();
 		data.port    = socket.handshake.address.port;
 
-		fs.appendFile('browser_log.txt', JSON.stringify(data) + "\n", function (err) {
-			if (err) throw err;
-			console.log("appended to log:\n", data);
-		});
-
+		storeData(data, 'server_log.txt');
 	}
 
 	socket.on("app server instance id", onAppServerInstanceId);
