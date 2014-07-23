@@ -22,8 +22,6 @@ function sendError (msg, url, lineNumber) {
 
 }
 
-window.addEventListener("message", receiveMessage, false);
-
 function receiveMessage(event)
 {
 	// We only accept messages from ourselves
@@ -33,13 +31,15 @@ function receiveMessage(event)
 	socket.emit("browser error", event.data);
 }
 
+window.addEventListener("message", receiveMessage, false);
+
 var embeddedCodeStart = "(" + function () {
 
 	function submitError (msg, url, lineNumber) {
 		// TODO: submit error to node server (already exists in node-tee)
 		console.log("submitError", msg, "at", url, ":", lineNumber);
 
-		window.postMessage({ message: msg, url: url, line: lineNumber }, "*");
+		window.postMessage({ message: msg, url: url, line: lineNumber, userAgent: navigator.userAgent }, "*");
 	};
 
 	console.log('embedded start');
