@@ -1,7 +1,7 @@
 console.log("running extension - start");
 
 // Connect to server
-var socket = io.connect('http://localhost:3001');
+var socket = io.connect("http://localhost:3001");
 
 socket.emit("client type", "browser");
 
@@ -41,7 +41,7 @@ var embeddedCodeStart = "(" + function () {
 		window.postMessage({ message: msg, url: url, line: lineNumber, userAgent: navigator.userAgent }, "*");
 	};
 
-	console.log('embedded start');
+	console.log("embedded start");
 
 	var oldOnError = window.onerror;
 

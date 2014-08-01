@@ -23,19 +23,19 @@ if (process.platform === "win32") {
 // resume stdin in the parent process (node app won't quit all by itself
 // unless an error or process.exit() happens)
 stdin.resume();
-stdin.setEncoding('utf8');
+stdin.setEncoding("utf8");
 
 // Connect to server
-var socket = io.connect('http://localhost:3001');
+var socket = io.connect("http://localhost:3001");
 
 // TODO: Instead of hard coded string, this will come from output of app server
 socket.emit("client type", "command line");
 socket.emit("app server instance id", "single server");
 
 // on any data into stdin
-stdin.on( 'data', function( chunk ){
+stdin.on( "data", function( chunk ){
 	// ctrl-c ( end of text )
-	if ( chunk === '\u0003' ) {
+	if ( chunk === "\u0003" ) {
 		process.exit();
 	}
 
@@ -47,6 +47,6 @@ stdin.on( 'data', function( chunk ){
 });
 
 // Immediately disconnect session when user presses CONTROL-C
-process.on('SIGINT', function() {
+process.on("SIGINT", function() {
 	socket.disconnect();
 });

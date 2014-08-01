@@ -1,7 +1,7 @@
 console.log("app monitor");
 
 // Connect to server
-var socket = io.connect('http://localhost:3001');
+var socket = io.connect("http://localhost:3001");
 
 socket.emit("client type", "browser");
 

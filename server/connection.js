@@ -1,7 +1,7 @@
 "use strict";
 
 var fs = require("fs"),
-	MongoClient = require('mongodb').MongoClient,
+	MongoClient = require("mongodb").MongoClient,
 	Session = require("./session"),
 	sessions = require("./sessions"),
 	io;
@@ -22,10 +22,10 @@ function connect (socket) {
 			console.log("appended to log file and database:\n", data);
 		});
 
-		MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, db) {
+		MongoClient.connect("mongodb://127.0.0.1:27017/test", function(err, db) {
 			if(err) throw err;
 
-			var collection = db.collection('browser_log');
+			var collection = db.collection("browser_log");
 			collection.insert(data, function(err, docs) {
 				db.close();
 			});
@@ -62,7 +62,7 @@ function connect (socket) {
 		data.address = session.getAddress();
 		data.port    = socket.handshake.address.port;
 
-		storeData(data, 'server_log.txt');
+		storeData(data, "server_log.txt");
 	}
 
 	function onBrowserError (data) {
@@ -74,7 +74,7 @@ function connect (socket) {
 		data.address = session.getAddress();
 		data.port    = socket.handshake.address.port;
 
-		storeData(data, 'server_log.txt');
+		storeData(data, "server_log.txt");
 	}
 
 	socket.on("app server instance id", onAppServerInstanceId);
@@ -82,7 +82,7 @@ function connect (socket) {
 	socket.on("app server line",        onAppServerLine);
 	socket.on("browser error",          onBrowserError);
 
-	socket.on('disconnect', function () {
+	socket.on("disconnect", function () {
 		console.log("user disconnected: " + session.getAddress());
 		printSessionSummary();
 		sessions.remove(session.getId());

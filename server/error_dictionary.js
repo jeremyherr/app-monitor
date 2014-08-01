@@ -19,7 +19,7 @@
 		}
 	}
 
-	if (typeof (exports) === 'object') {
+	if (typeof (exports) === "object") {
 		exports.lookUp = lookUp;
 	}
 
