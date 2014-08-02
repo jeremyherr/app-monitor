@@ -5,14 +5,15 @@
 	"bugs":         { "email": "jeremy.herr@gmail.com" },
 	"author":       { "name": "Jeremy Herr", "email": "jeremy.herr@gmail.com" },
 	"dependencies": {
-		"express":          "=3.3.4",
-		"jade":             "=1.5.0",
-		"socket.io":        "=0.9.16",
-		"socket.io-client": "=0.9.16",
-		"mongodb":          "=1.4.7"
+		"express":          "~3.3.4",
+		"jade":             "~1.5.0",
+		"socket.io":        "~0.9.16",
+		"socket.io-client": "~0.9.16",
+		"mongodb":          "~1.4.7",
+		"monk":             "~0.9.0"
 	},
 	"devDependencies": {
-		"jasmine-node": ">=1.10.2",
-		"sinon":        ">=1.8.1"
+		"jasmine-node": "~1.10.2",
+		"sinon":        "~1.8.1"
 	}
 }
