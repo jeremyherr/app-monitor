@@ -1,1 +1,30 @@
-include index.html
+doctype html
+html
+	head
+		title App Monitor
+		link(rel='stylesheet', href='/stylesheets/style.css', type='text/css')
+
+	body
+		h1 List of browser errors
+
+
+		ul.log-list
+			li.headers
+				span.message message
+				span.line line
+				span.url url
+				span.date date
+				span.address address
+				span.port port
+				span.user-agent user agent
+
+		ul.log-list
+			each log in loglist
+				li
+					span.message= log.message
+					span.line= log.line
+					span.url= log.url
+					span.date= log.date
+					span.address= log.address
+					span.port= log.port
+					span.user-agent= log.userAgent

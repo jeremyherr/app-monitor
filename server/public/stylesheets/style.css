@@ -1,0 +1,59 @@
+body {
+	font-family: arial;
+}
+
+ul.log-list {
+	list-style-type: none;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-padding-start: 0;
+}
+
+ul.log-list li {
+	white-space: nowrap;
+}
+
+ul.log-list li span {
+	display: inline-block;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+ul.log-list li.headers {
+	border: 1px solid #999;
+	font-weight: bold;
+	background-color: #ccc;
+}
+
+ul.log-list li.headers span {
+	text-align: center;
+}
+
+ul.log-list .line {
+	width: 4%;
+}
+
+ul.log-list .message {
+	width: 24%;
+}
+
+ul.log-list .url {
+	width: 24%;
+}
+
+ul.log-list .date {
+	width: 14%;
+}
+
+ul.log-list .address {
+	width: 14%;
+}
+
+ul.log-list .port {
+	width: 4%;
+}
+
+ul.log-list .user-agent {
+	width: 14%;
+}
