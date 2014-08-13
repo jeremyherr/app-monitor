@@ -1,3 +1,11 @@
+exports.index = function (req, res) {
+	res.render("index");
+};
+
+exports.status = function (req, res) {
+	res.render("status", []);
+};
+
 exports.loglist = function (req, res) {
 
 	var db = res.app.get("db");
