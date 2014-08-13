@@ -4,7 +4,7 @@ var sessions = {};
 
 function add (session) {
 	sessions[session.getId()] = session;
-};
+}
 
 function remove (id) {
 	delete sessions[id];

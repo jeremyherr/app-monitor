@@ -3,17 +3,24 @@
 var fs = require("fs"),
 	MongoClient = require("mongodb").MongoClient,
 	Session = require("./session"),
-	sessions = require("./sessions"),
-	io;
+	io,
+	sessions;
 
-function initialize (ioInit) {
+function initialize (ioInit, webSocketSessions) {
 	io = ioInit;
-};
+	sessions = webSocketSessions;
+}
 
 function connect (socket) {
+	// If this is an admin page connection, don't include it in the list of sessions.
+	// if () {
+
+	// }
+
 	var session = new Session(socket);
 
 	sessions.add(session);
+	// notifyClientSessionAdded(session);
 
 	function storeData (data, logFileName) {
 
@@ -29,7 +36,7 @@ function connect (socket) {
 			collection.insert(data, function(err, docs) {
 				db.close();
 			});
-		})
+		});
 	}
 
 	function printSessionSummary () {
@@ -74,7 +81,7 @@ function connect (socket) {
 		data.address = session.getAddress();
 		data.port    = socket.handshake.address.port;
 
-		storeData(data, "server_log.txt");
+		storeData(data, "browser_log.txt");
 	}
 
 	socket.on("app server instance id", onAppServerInstanceId);
@@ -86,8 +93,9 @@ function connect (socket) {
 		console.log("user disconnected: " + session.getAddress());
 		printSessionSummary();
 		sessions.remove(session.getId());
+		// notifyClientSessionRemoved(session);
 	});
-};
+}
 
 module.exports = {
 	initialize: initialize,
