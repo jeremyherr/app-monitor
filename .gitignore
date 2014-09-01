@@ -2,4 +2,4 @@ server_log.txt
 browser_log.txt
 node_modules/
 npm-debug.log
-
+server/public/js/
