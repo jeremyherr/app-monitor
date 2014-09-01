@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 var SessionList = require("./SessionList.js");
 
-module.exports = React.createClass({
+var StatusPage = React.createClass({
 	getInitialState: function() {
 		return {data: []};
 	},
@@ -24,3 +24,8 @@ module.exports = React.createClass({
 		);
 	}
 });
+
+React.renderComponent(
+	<StatusPage />,
+	document.getElementById("dynamic-session-list")
+);
