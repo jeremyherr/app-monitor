@@ -55,6 +55,11 @@ grunt
 npm install -g grunt-cli
 ```
 
+Also, for development, you can run this to update the bundle every time you make changes:
+```
+grunt watch
+```
+
 Run:
 
 ```
