@@ -24,6 +24,9 @@ function connect (socket) {
 
 	function storeData (data, logFileName) {
 
+		// add data to session so admin can see latest activity for this session
+		session.setData(data);
+
 		fs.appendFile(logFileName, JSON.stringify(data) + "\n", function (err) {
 			if (err) throw err;
 			console.log("appended to log file and database:\n", data);

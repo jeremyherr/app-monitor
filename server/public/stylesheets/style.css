@@ -2,7 +2,7 @@ body {
 	font-family: arial;
 }
 
-ul.log-list {
+ul.list {
 	font-size: 12px;
 	list-style-type: none;
 	-webkit-margin-before: 0;
@@ -10,24 +10,24 @@ ul.log-list {
 	-webkit-padding-start: 0;
 }
 
-ul.log-list li {
+ul.list li {
 	white-space: nowrap;
 }
 
-ul.log-list li span {
+ul.list li span {
 	display: inline-block;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
 }
 
-ul.log-list li.headers {
+ul.list li.headers {
 	border: 1px solid #999;
 	font-weight: bold;
 	background-color: #ccc;
 }
 
-ul.log-list li.headers span {
+ul.list li.headers span {
 	text-align: center;
 }
 
@@ -57,4 +57,25 @@ ul.log-list .port {
 
 ul.log-list .user-agent {
 	width: 14%;
+}
+
+
+ul.session-list .client-type {
+	width: 10%;
+}
+
+ul.session-list .address {
+	width: 6%;
+}
+
+ul.session-list .url {
+	width: 30%;
+}
+
+ul.session-list .user-agent {
+	width: 27%;
+}
+
+ul.session-list .message {
+	width: 27%;
 }

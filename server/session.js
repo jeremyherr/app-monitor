@@ -9,6 +9,14 @@ Session.prototype.getId = function () {
 	return this._socket.id;
 };
 
+Session.prototype.setData = function (data) {
+	this._data = data;
+};
+
+Session.prototype.getData = function () {
+	return this._data;
+};
+
 Session.prototype.setClientType = function (clientType) {
 	this._clientType = clientType;
 };

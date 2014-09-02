@@ -16,9 +16,21 @@ function connect (socket) {
 	socket.on("session list", function() {
 		console.log(sessions.getAll());
 		socket.emit("session list", Object.keys(sessions.getAll()).map(function(id) {
+			var session = sessions.getSession(id);
+			var data = session.getData() || {};
+			console.log("sending session: ", {
+				clientType: session.getClientType(),
+				address: session.getAddress(),
+				url: data.url,
+				message: data.message,
+				userAgent: data.userAgent,
+			});
 			return({
-				clientType: sessions.getSession(id).getClientType(),
-				address: sessions.getSession(id).getAddress()
+				clientType: session.getClientType(),
+				address: session.getAddress(),
+				url: data.url,
+				message: data.message,
+				userAgent: data.userAgent,
 			});
 		}));
 	});
