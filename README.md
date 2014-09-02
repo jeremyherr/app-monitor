@@ -6,16 +6,28 @@ chrome-extension
 
 A Chrome extension that injects JavaScript into the top of web pages to set window.onerror to open a websocket to the server and send error info to it.
 
-* TODO: Display popup to show messages from server
-* TODO: Only open one websocket connection per browser, instead of every time the page loads.
-* TODO: Catch errors not from JavaScript, e.g. 500 bundler errors
+To install the extension in Chrome, go to `chrome://extensions`
 
+* Click Developer mode
+* Load unpacked extension
+* Browse to the repo/chrome-extension
+
+When Chrome encounters a JavaScript error in the page you are viewing, the extension will report it to the server.
+
+TODO:
+
+* Display popup to show messages from server
+* Only open one websocket connection per browser, instead of every time the page loads.
+* Catch errors not from JavaScript, e.g. 500 bundler errors
 
 
 server
 ------
 
-Node server that accepts websocket connections and logs objects it receives to log file.
+This runs two servers.
+
+1. Node server that accepts websocket connections and logs objects it receives to log file.
+2. Node express web server for the admin interface, allowing you to monitor active connections and view the error log.
 
 Install MongoDB:
 Go to http://docs.mongodb.org/manual/ and follow the instructions for Installation for your OS.
@@ -33,11 +45,23 @@ cd server
 npm install
 ```
 
+Generate js bundle:
+```
+grunt
+```
+
+(If you don't already have grunt installed, do this first):
+```
+npm install -g grunt-cli
+```
+
 Run:
 
 ```
 node server.js
 ```
+
+
 
 
 tee

@@ -1,21 +1,28 @@
 {
-	"name":         "app-monitor-server",
-	"version":      "0.1.0",
-	"description":  "Accepts websocket connections from chrome-extension and tee and logs error messages.",
-	"bugs":         { "email": "jeremy.herr@gmail.com" },
-	"author":       { "name": "Jeremy Herr", "email": "jeremy.herr@gmail.com" },
-	"dependencies": {
-		"express":          "~3.3.4",
-		"jade":             "~1.5.0",
-		"socket.io":        "~0.9.16",
-		"socket.io-client": "~0.9.16",
-		"mongodb":          "~1.4.7",
-		"monk":             "~0.9.0",
-		"browserify":       "~5.11.0",
-		"react-tools":      "~0.11.1"
-	},
-	"devDependencies": {
-		"jasmine-node": "~1.10.2",
-		"sinon":        "~1.8.1"
-	}
+  "name": "app-monitor-server",
+  "version": "0.1.0",
+  "description": "Accepts websocket connections from chrome-extension and tee and logs error messages.",
+  "bugs": {
+    "email": "jeremy.herr@gmail.com"
+  },
+  "author": {
+    "name": "Jeremy Herr",
+    "email": "jeremy.herr@gmail.com"
+  },
+  "dependencies": {
+    "express": "~3.3.4",
+    "jade": "~1.5.0",
+    "socket.io": "~0.9.16",
+    "socket.io-client": "~0.9.16",
+    "mongodb": "~1.4.7",
+    "monk": "~0.9.0"
+  },
+  "devDependencies": {
+    "jasmine-node": "~1.10.2",
+    "sinon": "~1.8.1",
+    "grunt": "~0.4.5",
+    "browserify": "~5.11.0",
+    "grunt-react": "~0.9.0",
+    "grunt-browserify": "~3.0.0"
+  }
 }
